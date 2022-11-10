@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+// jQueryn syntaksi: Koodi sijoitetaan ready-funktion sisälle siksi että
+// silloin koodi ajetaan vasta kun dokumentti on ladattu kokonaan
+// $(document).ready(function(){
+// tai lyhyemmin: $(function(){
+
+// komennot:
+// liipaisu: $("valitsin").event(function() {....})
+// elementin muuttaminen $("valitsin").toiminto...
+// this viittaa elementtiin, joka liipaisi toiminnon
+
+$(document).ready(function(){
+    $("h2,p").click(function(){
+        $(this).hide();
+    })
+});
+
+</script>
+</head>
+<body>
+<h2>Otsikko</h2>
+<p>kappale</p>
+</body>
+</html>
