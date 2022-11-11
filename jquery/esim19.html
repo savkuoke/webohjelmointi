@@ -10,19 +10,25 @@ toggleClass() - Toggles between adding/removing classes from the selected elemen
 css() - Sets or returns the style attribute
 */
 $(document).ready(function(){
-  $("button").click(function(){
-    $("h1, h2, p").addClass("blue");
-    $("div").addClass("important");
- // voit myös liittää useita luokkia kerralla
- // $("#div1").addClass("important blue");
-});
+    $("#lisaa").click(function(){
+      $("h1, h2, p").addClass("blue");
+      $("div").addClass("important");
+      // voit myös liittää useita luokkia kerralla
+      // $("#div1").addClass("important blue");
+    });
+    $("#poista").click(function(){
+      $("h1, h2, p").removeClass("blue");
+      $("div").removeClass("important");
+      // voit myös liittää useita luokkia kerralla
+      // $("#div1").addClass("important blue");
+    });
   });
-});
 </script>
 <style>
 .important {
   font-weight: bold;
   font-size: xx-large;
+  color:red;
 }
 
 .blue {
@@ -38,9 +44,10 @@ $(document).ready(function(){
 <p>This is a paragraph.</p>
 <p>This is another paragraph.</p>
 
-<div>This is some important text!</div><br>
+<div><h4>uusi otsikko</h4>This is some important text!</div><br>
 
-<button>Add classes to elements</button>
+<button id="lisaa">Add classes to elements</button>
+<button id="poista">Remove classes to elements</button>
 
 </body>
 </html>
