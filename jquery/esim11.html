@@ -5,23 +5,40 @@
 <script>
 $(document).ready(function(){
   $("#btn1").click(function(){
-    $("#test1").text("Hello world!");
+    $("#test1").text($("#lahto1").text());
   });
   $("#btn2").click(function(){
-    $("#test2").html("<b>Hello world!</b>");
+    $("#test2").html($("#lahto2").html());
   });
   $("#btn3").click(function(){
-    $("#test3").val("Dolly Duck");
+    $("#test3").val($("#lahto3").val());
   });
 });
 </script>
 </head>
 <body>
+<table border ="1">
+  <tr>
+    <th>syöte</th><th>tulos</th>
+  </tr>
+  <tr>
+    <td><p id="lahto1">lähtöteksti jossa <i>muotoilua</i></p></td>
+    <td><p id="test1">This is a paragraph.</p>
+    </td>
+  </tr>
+  <tr>
+    <td><p id="lahto2">lähtöteksti jossa <i>muotoilua</i></p></td>
+    <td><p id="test2">This is another paragraph.</p>
+    </td>
 
-<p id="test1">This is a paragraph.</p>
-<p id="test2">This is another paragraph.</p>
+  </tr>
+  <tr>
+    <td><input type="text" id="lahto3" /></td>
+    <td><p>Input field: <input type="text" id="test3" value="Mickey Mouse"></p>
+  </td>
+  </tr>
+</table>
 
-<p>Input field: <input type="text" id="test3" value="Mickey Mouse"></p>
 
 <button id="btn1">Set Text</button>
 <button id="btn2">Set HTML</button>
