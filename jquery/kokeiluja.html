@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    /*
+    kun käyttäjä klikkaa p-elementtiä, se talletetaan muuttujaan nyt
+    kun käyttäjä klikkaa buttonia, muuttujassa olevan (viimeksi klikatun)
+    p-elementin sisältämä teksti näytetään alertilla
+    */
+$(document).ready(function(){
+    let nyt;
+    $("p").click(function(){
+        nyt = this;
+    })
+    $("button").click(function(){
+        alert($(nyt).text());
+    })
+});
+</script>
+</head>
+<body>
+    <p>Hellurei</p>
+    <p>Toinen teksti</p>
+    <button>Paina</button>
+
+</body>
+</html>

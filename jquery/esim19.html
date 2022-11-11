@@ -22,6 +22,14 @@ $(document).ready(function(){
       // voit myös liittää useita luokkia kerralla
       // $("#div1").addClass("important blue");
     });
+    $("#vihrea").click(function(){
+      $("#tulos").removeClass("blue");
+      $("#tulos").addClass("green");
+    });
+    $("#sininen").click(function(){
+      $("#tulos").removeClass("green");
+      $("#tulos").addClass("blue");
+    })
   });
 </script>
 <style>
@@ -32,7 +40,14 @@ $(document).ready(function(){
 }
 
 .blue {
+  border:1px solid white;
+  background-color: aquamarine;
   color: blue;
+}
+.green {
+  border:1px solid white;
+  background-color:darkseagreen;
+  color:lightgreen;
 }
 </style>
 </head>
@@ -45,9 +60,16 @@ $(document).ready(function(){
 <p>This is another paragraph.</p>
 
 <div><h4>uusi otsikko</h4>This is some important text!</div><br>
+<div id="tulos">
+  <h3>Otsikko</h3>
+  <article>jotain tekstiä tässä</article>
+  <p>kappaleellinen</p>
+</div>
 
 <button id="lisaa">Add classes to elements</button>
 <button id="poista">Remove classes to elements</button>
+<button id="vihrea">Vihreä</button>
+<button id="sininen">Sininen</button>
 
 </body>
 </html>
