@@ -13,12 +13,14 @@
 // liipaisu: $("valitsin").event(function() {....})
 // elementin muuttaminen $("valitsin").toiminto...
 // this viittaa elementtiin, joka liipaisi toiminnon
-
 $(document).ready(function(){
-    $("h2,p").click(function(){
-        $(this).hide();
-    })
+// kun käyttäjä klikkaa jotain h2 tai p-elementtiä, niin piilotetaan
+  $("h2,p").click(function() {
+    $(this).hide();
+  })
 });
+
+
 
 </script>
 </head>
