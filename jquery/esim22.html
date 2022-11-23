@@ -13,7 +13,7 @@ outerWidth()
 outerHeight()
 https://www.w3schools.com/jquery/img_jquerydim.gif
     */
-  $("button").click(function(){
+  $("#dockoko").click(function(){
     var txt = "";
     txt += "Document width/height: " + $(document).width();
     txt += "x" + $(document).height() + "\n";
@@ -21,12 +21,33 @@ https://www.w3schools.com/jquery/img_jquerydim.gif
     txt += "x" + $(window).height();
     alert(txt);
   });
+  // näytä divin koko
+  $("#divkoko").click(function(){
+    let koko = "Leveys= " + $("#alue1").width() + " Korkeus= " + $("#alue1").height();
+    koko += "innerLeveys= " + $("#alue1").innerWidth() + " Korkeus= " + $("#alue1").innerHeight();
+    koko += "outerLeveys= " + $("#alue1").outerWidth() + " Korkeus= " + $("#alue1").outerHeight();
+    koko += "outerLeveys= " + $("#alue1").outerWidth(true) + " Korkeus= " + $("#alue1").outerHeight(true);
+    $("#tulos").text(koko);
+  });
 });
+
 </script>
+<style>
+  div {
+    padding: 10px 5px 10px 5px;
+    border: 10px solid red;
+    margin: 20px;
+  }
+</style>
 </head>
 <body>
+<div id="alue1">
+  <h1>otsikko</h1>
+  <p id="tulos"></p>
 
-<button>Display dimensions of document and window</button>
+</div>
+<button id="dockoko">Display dimensions of document and window</button>
+<button id="divkoko">Näytä divin koko</button>
 
 </body>
 </html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        /*
+        $("#btnStart").click(function(){
+            $("#alku").parent().css({"border":"2px solid red"});
+        });
+        $("#btnStart").click(function(){
+            $("#alku").parents().css({"border":"2px solid red"});
+        });
+*/
+        $("#btnStart").click(function(){
+            $("#alku").parentsUntil("body").css({"border":"2px solid red"});
+        });
+    });
+    </script>
+    </head>
+    <body>
+        <h1>Traversing to parents</h1>
+        <div>
+            <h4>muu otsikko</h4>
+            <div>
+                <h3>Otsikko</h3>
+                <p id="alku">kappale</p>
+            </div>
+        </div>
+        <button id="btnStart">Start</button>
+    </body>
+</html>
