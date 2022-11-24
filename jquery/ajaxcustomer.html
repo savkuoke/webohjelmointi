@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asiakastietopalvelu</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // haetaan asiakastyypi ja sen perusteella tulee taulukkoon asiakastyyppitieto
+            let customertypes = [];
+
+            $.get("http://10.211.48.23:80/ajaxtestipaikka/customertype/read.php", function (data, status) {
+                // customertypes = data;
+                customertypes = JSON.parse(data);
+             //   console.log(customertypes);
+            })
+  
+            $("#fetchData").click(function () {
+                $("#tableBody").empty(); // tyhjätään taulukon sisältö ennen kuin haetaan tiedot
+                $.get("http://10.211.48.23:80/ajaxtestipaikka/customer/read.php",
+                    function (data, status) {
+                      //  console.log(data);
+                        let addStr = "";
+
+                            //addStr += customer;
+                            // console.log(customer[0]);
+                            customer = JSON.parse(data);
+                            for (var key of Object.keys(customer)) { //sattuu sopivasti tulemaan tiedot oikeassa järjestyksessä
+                        // alert("key="+key);
+                            addStr += "<td>"+customer[key].customerid+"</td>";
+                            addStr += "<td>"+customer[key].name+"</td>";
+                            addStr += "<td>"+customer[key].address+"</td>";
+                            addStr += "<td>"+customer[key].zipcode+"</td>";
+                            addStr += "<td>"+customer[key].postoffice+"</td>";
+                            addStr += "<td>"+customer[key].createddate + "</td>";
+                            addStr += "<td>"+customer[key].customertypeid+"</td>";
+                            addStr += "<td>"+checkCustomertype(customer[key].customertypeid)+"</td>";
+                            
+
+                            $("#tableBody").append("<tr>" + addStr + "</tr>");
+                            addStr = "";
+                    }
+                    }).fail((jqXHR) => {
+                        console.log(jqXHR);
+                    })
+
+            });
+            function checkCustomertype(ctid) {
+                for (let x=0;x< customertypes.length;x++) {
+                    if(customertypes[x].customertypeid == ctid)
+                        return customertypes[x].description;
+                }
+            }
+        });
+    </script>
+
+</head>
+
+<body>
+    <button id="fetchData">Hae tiedot</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nimi</th>
+                <th>Osoite</th>
+                <th>Postinumero</th>
+                <th>Postitoimipaikka</th>
+                <th>Luontipäivä</th>
+                <th>AsiakastyyppiID</th>
+                <th>Asiakastyyppi</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Tänne syötetään tiedot palvelimelta-->
+
+        </tbody>
+    </table>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+  $(document).ready(function(){
+    // asetetaan AJAX-palvelimen perusosoite
+    let serverUrl = "http://10.211.48.23:80/ajaxtestipaikka/";
+    let str;
+    $("#txt1").keyup(function() {
+      str = $(this).val();
+      if (str.length == 0) { 
+        $("#txtHint").html("");
+      }
+      else { $.get( serverUrl+"gethint.php?q="+str, function( data ) {
+        $( "#txtHint" ).html( data );
+       });
+      }
+    });
+  });
+</script>
+</head>
+<body>
+
+<h2>AJAX vihje jQueryllä</h2>
+<h3>Aloita kirjoittamaan nimi kenttään, AJAX tuo ehdotukset</h3>
+
+<p>Suggestions: <span id="txtHint"></span></p> 
+<p>First name: <input type="text" id="txt1"></p>
+
+
+</body>
+</html>

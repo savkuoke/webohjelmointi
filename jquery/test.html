@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+let tyhja = $("#alku");
+let arvo ="";
+let taulu[];
+for (let i=0;i<3;i++){
+    for (let j=0;j<3;j++){
+        taulu[1,j]=
+}
+
+}
+  $("p").click(function(){
+    if($(tyhja).text() != $(this).text()) {
+    	arvo = $(this).text();
+    	$(tyhja).text(arvo);
+    	$(this).text("");
+        tyhja = $(this);
+        }
+  });
+});
+</script>
+<style>
+    p {
+        width:100px;
+        height: 30px;
+        border:1px solid blue;
+    }
+</style>
+</head>
+<body>
+
+<button>Toggle between hiding and showing the paragraphs</button>
+<table>
+    <tr>
+        <td><p id="alku"></p></td>
+        <td><p>2</p></td>
+        <td><p>3</p></td>
+    </tr>
+    <tr>
+        <td><p>4</p></td>
+        <td><p>5</p></td>
+        <td><p>6</p></td>
+    </tr>
+    <tr>
+        <td><p>7</p></td>
+        <td><p>8</p></td>
+        <td><p>9</p></td>
+    </tr>
+</table>
+
+
+</body>
+</html>
