@@ -12,7 +12,7 @@
             // haetaan asiakastyypi ja sen perusteella tulee taulukkoon asiakastyyppitieto
             let customertypes = [];
 
-            $.get("http://10.211.48.23:80/ajaxtestipaikka/customertype/read.php", function (data, status) {
+            $.get("http://10.211.48.23/ajaxtestipaikka/customertype", function (data, status) {
                 // customertypes = data;
                 customertypes = JSON.parse(data);
                 console.log(customertypes);
@@ -20,9 +20,9 @@
   
             $("#fetchData").click(function () {
                 $("#tableBody").empty(); // tyhjätään taulukon sisältö ennen kuin haetaan tiedot
-                $.get("http://10.211.48.23:80/ajaxtestipaikka/customer/read.php",
+                $.get("http://10.211.48.23:80/ajaxtestipaikka/customer",
                     function (data, status) {
-                        console.log(data);
+                        console.log("data="+data);
                         let addStr = "";
 
                             //addStr += customer;
