@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asiakastietokanta</title>
+    <!--jQuery UI CSS CDN -->
+    <link href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <!-- basic jQuery is also required to run jQuery UI and it has to be before UI-library -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.js"></script>
+    <!--jQuery UI script CDN -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        var dialog, form;
+        var custTypes = {};
+        var baseUrl = "http://10.211.48.23/ajaxtestipaikka/customer/";
+        var customerTypeUrl = "http://10.211.48.23/ajaxtestipaikka/customertype/";
+
+// *** document.readyn ulkopuolella määritellyt funktiot ***
+
+// ------- 1. asiakkaan poisto tietokannasta -------
+        function deleteCustomer(id) {
+            $.ajax({
+                // tänne DELETE-kutsu
+                // käsittele success ja error
+            });
+        }
+
+// ------- 2. asiakkaan muokkauslomake -------
+        // dialogin luonti asiakkaan id:n perusteella
+        function editCustomer(id) {
+            // luo dialogi
+            // hae AJAXilla asiakkaan tiedot customerid:n perusteella
+            // täytä dialogin kentät hakutuloksen kentistä
+            // avaa dialogi
+        }
+
+
+// ------- 3. asiakkaan haku tietokannasta -------
+
+// asiakkaan haku annetuilla hakuehdoilla
+        // hakuehdot voi lukea suoraan formin kentistä serialisoimalla
+        // (lomake).serialize()-tyyliin. 
+        // Toki ne voi lukea myös yksitelleen ja rakentaa url siten
+        // tarkasta että GET-pyynnössä urlin muoto on esim:
+        // http://10.211.48.23/ajaxtestipaikka/customer/?name=Aalto%20Janne&zipcode=70700...jne
+        // huomaa edellä url-enkoodaus, jotta välilyönti kelpaa
+        function searchCustomerData() {
+            // tyhjennä html:n tulostaulu
+            $("#tabledata").empty();
+
+// ... muokkaa tätä lisäämällä urlin perään hakuehdot
+            $.get(baseUrl, function (data, status, xhr) {
+// success-tilanteessa voit tulostaa löydetyt asiakkaat tableen
+// lisää jokaiselle asiakkaalle myös Poista- ja Editoi-painike, koska ne ovat asiakaskohtaisia
+// haussa tulee customertypeid, hae sen perusteella talletetusta asiakastyyppiarraysta
+// myös description ja niiden avulla täytä asiakastyyppivalintalista ja tulostustaulussa asiakastyyppikenttä
+
+                if (status == "success") {
+                    $("#notificationWidget").hide();
+                    if (data.length == 0)
+                        $("#notificationWidget").show();
+                    data.map((x) => {
+                        var addStr = "";
+                        for (key of Object.keys(x))
+                            if (key == "customertypeid") {
+                                var found = false;
+                                for (custType of custTypes) {
+                                    if (custType.customertypeid == x[key]) {
+                                        found = true;
+                                        addStr += "<td>" + custType.description + "</td>"
+                                    }
+                                }
+                                if (!found)
+                                    addStr += "<td></td>";
+                            }
+                            else if (key != "customerid")
+                                addStr += "<td>" + x[key] + "</td>";
+    // nappien lisäys tänne Jos kutsutaan funktiota, niin funktio pitää olla document.readyn "ulkopuolella"
+    // lisää jokaiselle asiakkaalle Poista ja Muokkaa-napit ja liitä niiden tapahtumankäsittelijöihin
+    // kutsu vastaaviin funtioihin deleteCustomer() ja editCustomer()
+    // lisää funktioihin ko. asiakkaan id kutsuparametriksi
+                        
+                        $("#tabledata").append("<tr>" + addStr + "<td>");
+                    })
+                }
+            });
+        }
+
+        var editCustomerId;
+
+// ------- 4. asiakkaan lisäys ja muuttaminen tietokantaan -------
+
+// tällä samalla funktiolla voi hoitaa
+        // sekä asiakkaan luonnin POST että asiakkaan päivityksen PUT
+        function saveCustomer() {
+// tarkasta että kenttien validointi on ok
+// määrittele onko POST vai PUT
+// täytä ajax-kutsun data-osio dialogin kentistä kaivetuilla arvoilla
+// -success, niin tyhjennä lomake, sulje dialogi ja hae uudelleen asiakkaat taulukkoon
+// -error, niin näytä virhe
+        }
+
+// ------- 5. asiakastietolomakkeen validointi -------
+
+// validointifunktio tänne
+        // palauta true jos kaikki kentät ovat valideja
+        // virheen sattuessa ilmoita käyttäjälkke
+        function validCustomer() {
+        }
+
+/*  ******** 
+        document.readyn sisällä kaikki operaatiot
+        jotka vaativat että html dokumenttin on varmasti ladattu
+    ********  */
+
+        $(document).ready(function () {
+ // voit käyttää näitä virheviestintään           
+            $("#notificationWidget").hide();
+            $("#connectionError").hide();
+
+// ------- a) asiakastyyppien haku tietokannasta-------
+            // hae tässä asiakastyypit
+            $.get(customerTypeUrl, function (data, status, xhr) {
+                if (status == "success") {
+                    custTypes = data;
+// lisää tähän koodi, joka täyttää asiakastyyppi-valintalistan
+// haussa saaduilla arvoilla, listan näkyvät itemit tulevat description-kentästä
+// arvona voit käyttää customertypeid:tä
+                }
+            }).fail(function (xhr, textStatus) {
+
+                $("#connectionError").show();
+              //  console.log(textStatus);
+            });
+
+// näihin voit tallettaa asiakashausta löytyneiden asiakkaiden postikoodit
+// ja toimipaikat, jokainen vain kertaalleen
+// näitä voit käyttää sitten autocompletea varten
+            var postofficeList = [];
+            var zipcodeList = [];
+// 
+
+// ------- b) asiakkaiden haku tietokannasta -------
+// asiakkaiden haku ja sieltä postikoodien ja toimipaikkalistojen täyttö
+            $.get(baseUrl, function (data, status, xhr) {
+                if (status == "success") {
+                }
+            }).fail(function (xhr) { // jos haussa virhe, näytetään virheilmoitus
+            });
+
+
+            
+            // hakutoiminnon liittäminen Haku-painikkeeseen
+            $("#search").click(function () {
+                searchCustomerData();
+            });
+
+            
+        // ... tänne dialogin luontikoodi
+
+    // ... lisää tänne koodi, jossa dialogin submit-painikkeeseen liitetään
+    // talletusfunktion kutsu
+
+        });
+    </script>
+</head>
+
+<body>
+    <div class="ui-widget" id="connectionError">
+        <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+            <p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                <strong>Virhe:</strong> Ongelma palvelinyhteydessä.
+            </p>
+        </div>
+    </div>
+
+    <!-- tässä on esimerkkilomake, jota voit käyttää
+    asiakkaan lisäys- ja muokkausdialogissa 
+    <div id="dialog-form" title="Add new customer">
+        <p class="validateTips" id="addingNotifications">Kaikki kentät ovat pakollisia.</p>
+
+        <form>
+            <fieldset>
+                <label for="customerName">Nimi</label><br>
+                <input type="text" name="name" id="customerName"><br>
+                <label for="customerAddress">Osoite</label><br>
+                <input type="text" name="address" id="customerAddress"><br>
+                <label for="customerZipcode">Postinumero</label><br>
+                <input type="text" name="zipcode" id="customerZipcode"><br>
+                <label for="customerPostoffice">Postitoimipaikka</label><br>
+                <input type="text" name="postoffice" id="customerPostoffice"><br>
+                <label for="customertypeid">Asiakastyyppi </label><br>
+                <select name="customertypeid" class="custType" id="customertypeid">
+                    <option value="" selected disabled>Valitse..</option>
+                </select><br>
+
+                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            </fieldset>
+        </form>
+    </div>
+-->
+    <h1>Asiakaskanta</h1>
+    <fieldset>
+        <legend>Hae</legend>
+            <!-- tässä on esimerkkilomake, jota voit käyttää
+    asiakkaan hakuehtojen syöttämiseen -->
+        <form id="searchForm">
+            <label for="name">Nimi</label><br>
+            <input type="text" name="name" id="name"><br>
+            <label for="address">Osoite</label><br>
+            <input type="text" name="address" id="address"><br>
+            <label for="zipcode">Postinumero</label><br>
+            <input type="text" name="zipcode" id="zipcode"><br>
+            <label for="postoffice">Postitoimipaikka </label><br>
+            <input type="text" name="postoffice" id="postoffice"><br>
+            <label for="customertype">Asiakastyyppi </label><br>
+            <select name="customertype" class="custType" id="customertype">
+                <option value="" selected>Valitse.. </option>
+            </select><br>
+
+        </form>
+        <br><button id="search">Hae asiakkaita</button><br>
+        <!-- virheviestintään -->
+        <div class="ui-widget" id="notificationWidget">
+            <div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+                <p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+                    Hakuehdoilla ei löytynyt asiakkaita</p>
+            </div>
+        </div>
+    </fieldset>
+    <br><button id="add-customer">Lisää uusi asiakas</button><br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nimi</th>
+                <th>Osoite</th>
+                <th>Postinumero</th>
+                <th>Postitoimipaikka</th>
+                <th>Luontipäivä</th>
+                <th>Asiakastyyppi</th>
+                <th>Poista</th>
+                <th>Muokkaa</th>
+            </tr>
+        </thead>
+        <tbody id="tabledata">
+
+        </tbody>
+    </table>
+
+</body>
+
+</html>
