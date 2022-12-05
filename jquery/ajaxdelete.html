@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX-esimerkkejä: PUT</title>
+    <!--jQuery UI CSS CDN -->
+    <link href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <!-- basic jQuery is also required to run jQuery UI and it has to be before UI-library -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.js"></script>
+    <!--jQuery UI script CDN -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        function deleteCustomer(id) {
+            let url = "http://10.211.48.23/ajaxtestipaikka/customer";
+            let type = "DELETE";
+            $.ajax({
+                type:type,
+// jos rest-tyyppinen endpoint, url:url + id
+// jos ei, niin url?customerid=arvo         
+                url:url + id,
+                success: function (result) {
+                    console.log("onnistui "+result);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log("ei onnistunut "+xhr.responseJSON);
+                }
+            });
+        }
+        $(document).ready(function () {
+            $(delBtn).click(function () {
+                deleteCustomer();
+            });
+        })
+
+    </script>
+</head>
+<body>
+    <h1>Esimerkki DELETE-metodista</h1>
+    <form>
+        <label for="customerid">customerid</label><br>
+        <input type="text" name="name" id="customerid" disabled="disabled" value="2"><br>
+        
+        <label for="name">Nimi</label><br>
+        <input type="text" name="name" id="name" value="Anni"><br>
+    </form>
+    <button id="delBtn">Poista</button>
+</body>
+</html>

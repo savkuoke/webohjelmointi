@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX-esimerkkejä</title>
+    <!--jQuery UI CSS CDN -->
+    <link href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <!-- basic jQuery is also required to run jQuery UI and it has to be before UI-library -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.js"></script>
+    <!--jQuery UI script CDN -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        function savedata() {
+            let url = "http://10.211.48.23/ajaxtestipaikka/customer";
+            let type = "POST";
+            var SendInfo = [];
+            let uusiAsiakas = {
+                name: $("#name").val()
+            };
+            console.log("nimi:"+uusiAsiakas.name);
+            SendInfo.push(uusiAsiakas);
+            console.log("nimi:"+SendInfo[0].name);
+            console.log("tässä on jsonia: "+JSON.stringify(SendInfo));
+            $.ajax({
+                type:type,
+                url:url,
+                contentType: "application/json",
+                data: JSON.stringify(SendInfo),
+                success: function (result) {
+                    console.log("onnistui "+result);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log("ei onnistunut "+xhr.responseJSON);
+                }
+            });
+        }
+        $(document).ready(function () {
+            $(saveBtn).click(function () {
+                savedata();
+            });
+        })
+
+    </script>
+</head>
+<body>
+    <form>
+        
+        <label for="name">Nimi</label><br>
+        <input type="text" name="name" id="name"><br>
+    </form>
+    <button id="saveBtn">Talleta</button>
+</body>
+</html>

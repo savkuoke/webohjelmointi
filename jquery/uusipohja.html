@@ -58,6 +58,22 @@
 // haussa tulee customertypeid, hae sen perusteella talletetusta asiakastyyppiarraysta
 // myös description ja niiden avulla täytä asiakastyyppivalintalista ja tulostustaulussa asiakastyyppikenttä
 
+/*
+    Palvelin palauttaa datan jossain muodossa, esim text/pain tai application/json
+    Palvelin voi kertoa lähettämänsä muodon asettamalla responsen headeriin Content-Typen
+    Client voi kertoa mitä datamuotoa odottaa saavansa
+
+1) joko palvelin laittaa responsessa headeriin tai muodostaa sisällön muodon 
+arvaamalla mime-tyypin perusttella:
+        Content-Type: application/json
+    jos response sisältää jsnoa, silloin clientissa vastausta voidaan suoraan käsitellä javascript objektina
+        let customertypes = {};
+        customertypes = data;
+2) jos palautusmuoto on muuta (tekstiä), niin
+    silloin clientissa muutetaan se javascript objektiksi JSON.parse():lla
+        let customertypes = [];
+        customertypes = JSON.parse(data);
+*/
                 if (status == "success") {
                     $("#notificationWidget").hide();
                     if (data.length == 0)
@@ -90,6 +106,13 @@
         }
 
         var editCustomerId;
+/*
+HUOM! Jos contenttype-kutsussa on muu kuin 
+application/x-www-form-urlencoded, multipart/form-data, tai text/plain
+niin client lähettää ensin OPTIONS requestin, eli se pitää sallia serverin puolella
+Eli jos määrittelet jsonin sisältötyypiksi, niin em. tarvitaan
+            contentType:"application/json";
+*/
 
 // ------- 4. asiakkaan lisäys ja muuttaminen tietokantaan -------
 
